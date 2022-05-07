@@ -14,6 +14,7 @@ Other useful links:
 - [NOT ACTUAL, but maybe useful DBus tutorial with PyKDE4](https://techbase.kde.org/Languages/Python/PyKDE_DBus_Tutorial)
 
 Notes:
+- I testet this solution in Plasma X11, Plsama Wayland, Cinnamon and it is working great. On Gnome with KStatusNotifier extension worked only scrol/wheel and not primary activate method, this needs more digging. 
 - I generated file `StatusNotifierItem.py` with this command:
 `python -m sdbus gen-from-file /usr/share/dbus-1/interfaces/kf5_org.kde.StatusNotifierItem.xml` you should have this file on same place, if you are using Arch Linux
 - I generated file `StatusNotifierWatcher.py` directly from dbus with this command: `python -m sdbus gen-from-connection org.kde.StatusNotifierWatcher /StatusNotifierWatcher` but I could do that with command `python -m sdbus gen-from-file /usr/share/dbus-1/interfaces/kf5_org.kde.StatusNotifierWatcher.xml` (I have tried it with the same result)
@@ -22,4 +23,4 @@ Notes:
 
 
 
-## This repository and this text is more my notes and my "storage" the regular repository, but you can use it tut you can use it to relieve digging about KStatusNotifier, because here is working solution in Python.
+## This repository and this text is more my notes and my "storage" then regular repository, but you can use it to relieve digging about KStatusNotifier, because here is working solution in Python.
