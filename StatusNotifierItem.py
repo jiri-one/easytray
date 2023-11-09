@@ -1,27 +1,27 @@
 
 from __future__ import annotations
+import io
 
 from typing import Any, Dict, List, Tuple
 
 from sdbus import (DbusInterfaceCommonAsync, dbus_method_async,
                    dbus_property_async, dbus_signal_async)
 
-ed_image = open("ed_icon.rgba", "rb").read()
 
 class OrgKdeStatusNotifierItemInterface(
     DbusInterfaceCommonAsync,
     interface_name='org.kde.StatusNotifierItem',
 ):
 
-    # @dbus_method_async(
-    #     input_signature='s',
-    # )
-    # async def provide_xdg_activation_token(
-    #     self,
-    #     token: str,
-    # ) -> None:
-    #     print("token: ", token)
-
+    @dbus_method_async(
+        input_signature='s',
+    )
+    async def provide_xdg_activation_token(
+        self,
+        token: str,
+    ) -> None:
+        raise NotImplementedError
+    
     @dbus_method_async(
         input_signature='ii',
     )
@@ -30,7 +30,7 @@ class OrgKdeStatusNotifierItemInterface(
         x: int,
         y: int,
     ) -> None:
-        raise NotImplementedError
+        print("context_menu", x, y)
 
     @dbus_method_async(
         input_signature='ii',
@@ -92,35 +92,35 @@ class OrgKdeStatusNotifierItemInterface(
     def window_id(self) -> int:
         return 0
 
-    # @dbus_property_async(
-    #     property_signature='s',
-    # )
-    # def icon_theme_path(self) -> str:
-    #     raise NotImplementedError
+    @dbus_property_async(
+        property_signature='s',
+    )
+    def icon_theme_path(self) -> str:
+        return "/home/jiri/.local/share/icons/hicolor/285x285/apps/"
 
-    # @dbus_property_async(
-    #     property_signature='o',
-    # )
-    # def menu(self) -> str:
-    #     raise NotImplementedError
+    @dbus_property_async(
+        property_signature='o',
+    )
+    def menu(self) -> str:
+        return "/SNIMenu"
 
     @dbus_property_async(
         property_signature='b',
     )
     def item_is_menu(self) -> bool:
-        return False
-
-    # @dbus_property_async(
-    #     property_signature='s',
-    # )
-    # def icon_name(self) -> str:
-    #     return "mail-read"
+        return True
 
     @dbus_property_async(
-        property_signature='a(iiay)',
+        property_signature='s',
     )
-    def icon_pixmap(self) -> List[Tuple[int, int, bytes]]:
-        return [(22,22,ed_image)]
+    def icon_name(self) -> str:
+        return "easydict-tray-icon"
+
+    # @dbus_property_async(
+    #     property_signature='a(iiay)',
+    # )
+    # def icon_pixmap(self) -> List[Tuple[int, int, bytes]]:
+    #     raise NotImplementedError
 
     # @dbus_property_async(
     #     property_signature='s',
@@ -128,29 +128,30 @@ class OrgKdeStatusNotifierItemInterface(
     # def overlay_icon_name(self) -> str:
     #     raise NotImplementedError
 
+
     # @dbus_property_async(
     #     property_signature='a(iiay)',
     # )
     # def overlay_icon_pixmap(self) -> List[Tuple[int, int, bytes]]:
-    #     return [(255,256,ed_image)]
+    #     raise NotImplementedError
 
-    @dbus_property_async(
-        property_signature='s',
-    )
-    def attention_icon_name(self) -> str:
-        return "mail-read"
+    # @dbus_property_async(
+    #     property_signature='s',
+    # )
+    # def attention_icon_name(self) -> str:
+    #     raise NotImplementedError
 
     # @dbus_property_async(
     #     property_signature='a(iiay)',
     # )
     # def attention_icon_pixmap(self) -> List[Tuple[int, int, bytes]]:
-    #     return [(255,256,ed_image)]
+    #     raise NotImplementedError
 
     # @dbus_property_async(
     #     property_signature='s',
     # )
     # def attention_movie_name(self) -> str:
-    #     return "mail-read"
+    #     raise NotImplementedError
 
     # @dbus_property_async(
     #     property_signature='(sa(iiay)ss)',
