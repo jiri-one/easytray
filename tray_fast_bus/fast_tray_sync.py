@@ -1,9 +1,6 @@
-from dbus_fast.aio import MessageBus
-from dbus_fast.glib import message_bus
+from dbus_fast.glib import MessageBus
 from dbus_fast.service import ServiceInterface, method, dbus_property, signal
 from dbus_fast import Variant, DBusError
-
-import asyncio
 
 
 class StatusNotifierIconInterface(ServiceInterface):
@@ -119,11 +116,11 @@ class StatusNotifierIconInterface(ServiceInterface):
         self.icon_name = val
 
 
-async def main():
-    bus = await MessageBus().connect()
+def main():
+    bus = MessageBus().connect()
     # the introspection xml would normally be included in your project, but
     # this is convenient for development
-    snw_introspection = await bus.introspect(
+    snw_introspection = bus.introspect(
         "org.kde.StatusNotifierWatcher", "/StatusNotifierWatcher"
     )
 
@@ -135,13 +132,10 @@ async def main():
 
     sni_interface = StatusNotifierIconInterface()
     bus.export("/SNIMenu", sni_interface)
-    await bus.request_name("one.jiri.easydict")
+    bus.request_name("one.jiri.easydict")
 
-    await snw_interface.call_register_status_notifier_item("/SNIMenu")
+    snw_interface.call_register_status_notifier_item("/SNIMenu")
 
-    await bus.wait_for_disconnect()
-
-    await asyncio.Event().wait()
+    bus.wait_for_disconnect()
 
 
-asyncio.run(main())
