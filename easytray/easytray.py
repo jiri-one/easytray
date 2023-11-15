@@ -1,5 +1,4 @@
 import sys
-from pathlib import Path
 
 import gi
 
@@ -7,9 +6,6 @@ gi.require_versions({"Gtk": "4.0"})
 from gi.repository import Gtk
 import asyncio
 import gbulb
-
-parent_folder = Path(__file__).parent.parent
-sys.path.append(parent_folder)
 
 # internal imports
 from dbus_backends import get_dbus_backend
