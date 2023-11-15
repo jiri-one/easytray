@@ -37,10 +37,9 @@ class EasyTray(Gtk.Application):
         )
         snw_interface = obj.get_interface("org.kde.StatusNotifierWatcher")
 
-
         sni_interface = StatusNotifierIconInterface()
         bus.export("/SNIMenu", sni_interface)
-        #await bus.request_name("one.jiri.easydict")
+        # await bus.request_name("one.jiri.easydict")
 
         await snw_interface.call_register_status_notifier_item("/SNIMenu")
         await bus.wait_for_disconnect()

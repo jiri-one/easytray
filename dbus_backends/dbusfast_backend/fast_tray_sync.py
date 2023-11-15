@@ -1,8 +1,6 @@
-from dbus_fast.aio import MessageBus
+from dbus_fast.glib import MessageBus
 from dbus_fast.service import ServiceInterface, method, dbus_property, signal
 from dbus_fast import Variant, DBusError
-
-import asyncio
 
 
 class StatusNotifierIconInterface(ServiceInterface):
@@ -116,42 +114,25 @@ class StatusNotifierIconInterface(ServiceInterface):
             return
 
         self.icon_name = val
-    
-    @method()
-    def context_menu(
-        self,
-        x: 'i',
-        y: 'i',
-    ) -> None:
-        pass
 
 
-async def main():
-    bus = await MessageBus().connect()
+def main():
+    bus = MessageBus().connect()
     # the introspection xml would normally be included in your project, but
     # this is convenient for development
-    snw_introspection = await bus.introspect(
+    snw_introspection = bus.introspect(
         "org.kde.StatusNotifierWatcher", "/StatusNotifierWatcher"
     )
 
     obj = bus.get_proxy_object(
         "org.kde.StatusNotifierWatcher", "/StatusNotifierWatcher", snw_introspection
     )
-    snw_interface = obj.get_interface("one.jiri.easydict")
-
+    snw_interface = obj.get_interface("org.kde.StatusNotifierWatcher")
 
     sni_interface = StatusNotifierIconInterface()
     bus.export("/SNIMenu", sni_interface)
-    
-    #await bus.request_name("one.jiri.easydict")
+    bus.request_name("one.jiri.easydict")
 
-    await snw_interface.call_register_status_notifier_item("/SNIMenu")
-    sni_interface.changed()
+    snw_interface.call_register_status_notifier_item("/SNIMenu")
 
-    await bus.wait_for_disconnect()
-    await bus.wait_for_disconnect()
-
-    await asyncio.Event().wait()
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    bus.wait_for_disconnect()

@@ -31,9 +31,11 @@ class ComCanonicalDbusmenuInterface(
         recursion_depth: int,
         property_names: List[str],
     ) -> Tuple[int, Tuple[int, Dict[str, Tuple[str, Any]], List[Tuple[str, Any]]]]:
-        print(parent_id,
-        recursion_depth,
-        property_names,)
+        print(
+            parent_id,
+            recursion_depth,
+            property_names,
+        )
         raise NotImplementedError
 
     @dbus_method_async(
@@ -128,7 +130,11 @@ class ComCanonicalDbusmenuInterface(
     @dbus_signal_async(
         signal_signature="a(ia{sv})a(ias)",
     )
-    def items_properties_updated(self) -> Tuple[List[Tuple[int, Dict[str, Tuple[str, Any]]]], List[Tuple[int, List[str]]]]:
+    def items_properties_updated(
+        self,
+    ) -> Tuple[
+        List[Tuple[int, Dict[str, Tuple[str, Any]]]], List[Tuple[int, List[str]]]
+    ]:
         raise NotImplementedError
 
     @dbus_signal_async(
