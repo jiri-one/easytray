@@ -10,7 +10,7 @@ import gbulb
 
 parent_folder = Path(__file__).parent.parent
 sys.path.append(parent_folder)
-print(parent_folder)
+
 # internal imports
 from dbus_backends import get_dbus_backend
 from .menu import EasyTrayMenu
