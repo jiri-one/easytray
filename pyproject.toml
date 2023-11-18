@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "easytray"
+version = "0.1.0"
+description = "Python program for applications that want to use the tray icon using KStatusNotifier, but are not written using QT. Examples using GTK4 (PyGObject)."
+authors = ["jiri-one <nemec@jiri.one>"]
+license = "GPL3"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+dasbus = "^1.7"
+
+
+[tool.poetry.group.dev.dependencies]
+hupper = "^1.12"
+pygobject = "^3.46.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

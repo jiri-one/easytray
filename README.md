@@ -1,26 +1,8 @@
-# kstatusnotifier_sdbus
+# EasyTray
 
-KStatusNotifier tray icon solution writen in Python with sdbus (library for D-Bus).
+Many Linux users are still used to using the tray icon for some kinds of programs. KDE Plasma has supported tray icons practically since its inception, and the latest implementation that KDE has come up with is [KStatusNotifier](https://notmart.org/misc/statusnotifieritem/index.html). This solution is also programming language or library independent, as it is built entirely on top of DBUS. This allows you to use the tray icon in libraries and frameworks other than those associated with KDE/Qt.
 
-If you copy content of this repo and run `python sdbus_server_and_client.py` you should see small icon in your KDE Plasma Tray area. You can use scroll/wheel button on your mouse and see in terminal, that this is working and primary button is working too. You can implement this in your project, where you need tray icon, because other linux solutions are little bit strange .... All settings are in `StatusNotifierItem.py` file, there you can implement other functionality. More infos are on site: https://notmart.org/misc/statusnotifieritem/index.html (**that is the main link about KStatusNotifier**)
+So this repository contains an implementation of KStatusNotifier using the Python programming language and the Python library [dasbus](https://dasbus.readthedocs.io/en/latest/).
+The repository also includes a sample/example of small [GTK/PyGObject](https://pygobject.readthedocs.io/en/latest/) application that implements the tray icon and KStatusNotifier, including the [menu](https://lazka.github.io/pgi-docs/#Dbusmenu-0.4).
 
-Other useful links:
-- [Lennart Poettering is explainin dbus](https://web.archive.org/web/20200522193008/http://0pointer.net/blog/the-new-sd-bus-api-of-systemd.html)
-- [KStatusNotifier implementation in C in GTK3](https://github.com/jjk-jacky/statusnotifier/blob/master/src/statusnotifier.c)
-- [python-sdbus documentation](https://python-sdbus.readthedocs.io/en/latest/general.html)
-- [AppIndicator/KStatusNotifierItem support for GNOME Shell](https://github.com/ubuntu/gnome-shell-extension-appindicator)
-- [Introduction to D-Bus from Freedesktop.org](https://www.freedesktop.org/wiki/IntroductionToDBus/)
-- [All about D-Bus from KDE with examples in C++](https://develop.kde.org/docs/use/d-bus/)
-- [NOT ACTUAL, but maybe useful DBus tutorial with PyKDE4](https://techbase.kde.org/Languages/Python/PyKDE_DBus_Tutorial)
-
-Notes:
-- I testet this solution in Plasma X11, Plsama Wayland, Cinnamon and it is working great. On Gnome with KStatusNotifier extension worked only scrol/wheel and not primary activate method, this needs more digging. 
-- I generated file `StatusNotifierItem.py` with this command:
-`python -m sdbus gen-from-file /usr/share/dbus-1/interfaces/kf5_org.kde.StatusNotifierItem.xml` you should have this file on same place, if you are using Arch Linux
-- I generated file `StatusNotifierWatcher.py` directly from dbus with this command: `python -m sdbus gen-from-connection org.kde.StatusNotifierWatcher /StatusNotifierWatcher` but I could do that with command `python -m sdbus gen-from-file /usr/share/dbus-1/interfaces/kf5_org.kde.StatusNotifierWatcher.xml` (I have tried it with the same result)
-- the XML files are on internet too: https://github.com/KDE/knotifications/blob/master/src/org.kde.StatusNotifierWatcher.xml and https://github.com/KDE/knotifications/blob/master/src/org.kde.StatusNotifierWatcher.xml
-- For simple notification you can use https://github.com/KDE/knotifications/blob/master/src/org.freedesktop.Notifications.xml but sdbus it already has done and easier with this binds: https://github.com/python-sdbus/python-sdbus-notifications
-
-
-
-## This repository and this text is more my notes and my "storage" then regular repository, but you can use it to relieve digging about KStatusNotifier, because here is working solution in Python.
+**Note:** in the repository you will also find attempts to implement it in other DBUS libraries, namely [dbus-fast](https://dbus-fast.readthedocs.io/en/latest/) and also [sdbus](https://python-sdbus.readthedocs.io/en/latest/). In these libraries the **tray icon itself works perfectly**, but I have not yet managed to implement a menu for them, so the default implementation is dasbus, which is built on top of the GLib library, which is linked to the GTK library, and then in GTK applications you can simply use [Dbusmenu](https://lazka.github.io/pgi-docs/#Dbusmenu-0.4) for the menu.
