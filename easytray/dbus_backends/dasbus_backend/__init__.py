@@ -1,7 +1,7 @@
 from dasbus.connection import SessionMessageBus
 
 # internal imports
-from dbus_backends.tray_abc import Tray
+from easytray.dbus_backends.tray_abc import Tray
 from .dasbus_tray_model import TrayIcon
 
 

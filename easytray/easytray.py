@@ -8,7 +8,7 @@ import asyncio
 import gbulb
 
 # internal imports
-from dbus_backends import get_dbus_backend
+from .dbus_backends import get_dbus_backend
 from .menu import EasyTrayMenu
 
 DEFAULT_TRAY_BACKEND = "dasbus"
