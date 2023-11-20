@@ -14,6 +14,7 @@ dasbus = "^1.7"
 [tool.poetry.group.dev.dependencies]
 hupper = "^1.12"
 pygobject = "^3.46.0"
+gbulb = "^0.6.4"
 
 [build-system]
 requires = ["poetry-core"]

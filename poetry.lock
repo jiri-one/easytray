@@ -12,6 +12,20 @@ files = [
 ]
 
 [[package]]
+name = "gbulb"
+version = "0.6.4"
+description = "GLib event loop for tulip (PEP 3156)"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "gbulb-0.6.4-py3-none-any.whl", hash = "sha256:31d64ede2e7aac8f871ce914f884b949e4891b1faa2ef45800db9eaa9c4b371b"},
+    {file = "gbulb-0.6.4.tar.gz", hash = "sha256:4a6dddd9b8f958393e9ace60def7feacee6528136504bea3407e5ffe79f1a89f"},
+]
+
+[package.dependencies]
+pygobject = ">=3.14.0"
+
+[[package]]
 name = "hupper"
 version = "1.12"
 description = "Integrated process monitor for developing and reloading daemons."
@@ -66,4 +80,4 @@ pycairo = ">=1.16,<2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "7f4ee001e7152d7236d3a85339dbc689877f5aff87c949b5f04a8900b7439824"
+content-hash = "9bedc550e90d602f544b401aa03dd69956b35b23ad5a5c1809343c9fc03d2d4d"
