@@ -15,7 +15,10 @@ class DasbusTray(Tray):
         status: str,
         icon: str,
         object_path: str,
-        icon_theme_path: str
+        icon_theme_path: str,
+        primary_callback: callable = None,
+        secondary_callback: callable = None,
+        scroll_callback: callable = None,
     ):
         self.tray = TrayIcon(
             category=category,
@@ -25,6 +28,9 @@ class DasbusTray(Tray):
             icon=icon,
             object_path=object_path,
             icon_theme_path=icon_theme_path,
+            primary_callback=primary_callback,
+            secondary_callback=secondary_callback,
+            scroll_callback=scroll_callback,
         )
 
     def create_tray_icon(self):

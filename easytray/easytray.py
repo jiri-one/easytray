@@ -23,11 +23,12 @@ class EasyTray(Gtk.Application):
         tray = dbus_tray_backend(
             category="ApplicationStatus",
             id=self.get_application_id(),
-            title="First open source translator.",
+            title="Tray icon example.",
             status="Active",
             icon="easydict-tray-icon",
             object_path="/SNIMenu",
             icon_theme_path="/home/jiri/.local/share/icons/hicolor/285x285/apps/",
+            primary_callback=self.primary_activated,
         )
 
         tray.create_tray_icon()
@@ -49,6 +50,9 @@ class EasyTray(Gtk.Application):
     def menu_buttons_catcher(self, action, target):
         button_label = action.property_get("label")
         print(f"The button {button_label} was pressed.")
+
+    def primary_activated(self, x, y):
+        print("Primary button has been activated", x, y)
 
 
 def main(args=sys.argv[1:]):

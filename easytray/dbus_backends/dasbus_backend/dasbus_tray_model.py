@@ -4,6 +4,7 @@ from dasbus.server.template import InterfaceTemplate
 from dasbus.identifier import DBusServiceIdentifier, DBusObjectIdentifier
 from dasbus.typing import Str, UInt32, Bool, Int, Byte, ObjPath, List, Tuple
 from pathlib import Path
+from dataclasses import dataclass
 
 XML_FILE = Path(__file__).parent / "kf5_org.kde.StatusNotifierItem.xml"
 assert XML_FILE.exists()
@@ -14,34 +15,23 @@ class TrayIconInterface:
         __dbus_xml__ = xml.read()
 
 
+@dataclass
 class TrayIcon(TrayIconInterface, InterfaceTemplate):
-    def __init__(
-        self,
-        category: str,
-        id: str,
-        title: str,
-        status: str,
-        icon: str,
-        icon_theme_path: str,
-        object_path: str,
-        window_id: int = 0,
-        overlay_icon: str | None = None,
-        attention_icon: str | None = None,
-        tooltip: tuple[Gio.Icon | None, str, str] | None = None,
-        item_is_menu: bool = True,
-    ):
-        self.category = category
-        self.id = id
-        self.title = title
-        self.status = status
-        self.icon = icon
-        self.icon_theme_path = icon_theme_path
-        self.object_path = object_path
-        self.window_id = window_id
-        self.overlay_icon = overlay_icon
-        self.attention_icon = attention_icon
-        self.tooltip = tooltip
-        self.item_is_menu = item_is_menu
+    category: str
+    id: str
+    title: str
+    status: str
+    icon: str
+    icon_theme_path: str
+    object_path: str
+    window_id: int = 0
+    overlay_icon: str | None = None
+    attention_icon: str | None = None
+    tooltip: tuple[Gio.Icon | None, str, str] | None = None
+    item_is_menu: bool = True
+    primary_callback: callable = None
+    secondary_callback: callable = None
+    scroll_callback: callable = None
 
     @property
     def Category(self) -> Str:
@@ -144,13 +134,16 @@ class TrayIcon(TrayIconInterface, InterfaceTemplate):
         pass
 
     def Activate(self, x: int, y: int) -> None:
-        print("primary activated")
+        if self.primary_callback:
+            self.primary_callback(x, y)
 
     def SecondaryActivate(self, x: int, y: int) -> None:
-        pass
+        if self.secondary_callback:
+            self.secondary_callback(x, y)
 
     def Scroll(self, delta: int, orientation: str) -> None:
-        print(delta, orientation)
+        if self.scroll_callback:
+            self.scroll_callback(delta, orientation)
 
     def ProvideXdgActivationToken(self, token: str) -> str:
         pass
