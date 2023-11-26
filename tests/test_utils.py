@@ -4,7 +4,7 @@ from PIL import Image
 import pytest
 
 # internal imports
-from easytray.dbus_backends.utils import install_icon_to_xdg_data_home
+from easytray.dbus_backends import install_icon_to_xdg_data_home
 
 
 SVG_IMAGE = """
