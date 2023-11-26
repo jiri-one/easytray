@@ -1,4 +1,5 @@
 from PIL import Image
+from pathlib import Path
 
 # pytest imports
 import pytest
@@ -34,6 +35,7 @@ SVG_IMAGE = """
 </svg>
 """
 
+
 @pytest.fixture
 def image_svg(tmp_path):
     img_path = tmp_path / "image.svg"
@@ -52,7 +54,14 @@ def image_png(tmp_path):
 
 
 def test_install_icon_to_xdg_data_home_png(image_png):
-    new_icon_path = install_icon_to_xdg_data_home(icon_path=image_png, icon_size=100)
+    new_icon_path_str = install_icon_to_xdg_data_home(
+        icon_path=image_png, icon_size=100
+    )
+    new_icon_path = Path(new_icon_path_str)
+    assert new_icon_path.is_dir()
+
 
 def test_install_icon_to_xdg_data_home_svg(image_svg):
-    new_icon_path = install_icon_to_xdg_data_home(icon_path=image_svg)
+    new_icon_path_str = install_icon_to_xdg_data_home(icon_path=image_svg)
+    new_icon_path = Path(new_icon_path_str)
+    assert new_icon_path.is_dir()

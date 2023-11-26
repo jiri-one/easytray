@@ -1,6 +1,7 @@
 import sys
 
 import gi
+from pathlib import Path
 
 gi.require_versions({"Gtk": "4.0"})
 from gi.repository import Gtk
@@ -8,7 +9,7 @@ import asyncio
 import gbulb
 
 # internal imports
-from .dbus_backends import get_dbus_backend
+from .dbus_backends import get_dbus_backend, install_icon_to_xdg_data_home
 from .menu import EasyTrayMenu
 
 DEFAULT_TRAY_BACKEND = "dasbus"
@@ -18,7 +19,12 @@ DBUS_PATH = "/SNIMenu"
 class EasyTray(Gtk.Application):
     def __init__(self, loop=None):
         super().__init__(application_id="one.jiri.easydict")
-        # self.connect("activate", on_activate)
+        # install the icon to the system
+        icon = Path(__file__).parent / "easydict-tray-icon.png"
+        print(icon)
+        icon_path = install_icon_to_xdg_data_home(icon_path=icon, icon_size=285)
+        print(icon_path)
+        # get the dbus backend a set the tray icon
         dbus_tray_backend = get_dbus_backend(DEFAULT_TRAY_BACKEND)
         tray = dbus_tray_backend(
             category="ApplicationStatus",
@@ -26,13 +32,13 @@ class EasyTray(Gtk.Application):
             title="Tray icon example.",
             status="Active",
             icon="easydict-tray-icon",
-            object_path="/SNIMenu",
-            icon_theme_path="/home/jiri/.local/share/icons/hicolor/285x285/apps/",
+            object_path=DBUS_PATH,  # dbus path has to be same like menu
+            icon_theme_path=icon_path,
             primary_callback=self.primary_activated,
         )
-
+        # you need to call that method to show tray icon
         tray.create_tray_icon()
-
+        # and if you want, you can connect menu to the tray icon
         self.menu = EasyTrayMenu(
             menu_items={
                 "Settings": self.menu_buttons_catcher,
@@ -42,6 +48,7 @@ class EasyTray(Gtk.Application):
             },
             dbus_path=DBUS_PATH,
         )
+        # you need to call that method to show menu
         self.menu.create_dbus_menu()
 
     def do_activate(self):
