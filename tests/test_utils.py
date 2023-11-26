@@ -5,7 +5,8 @@ from pathlib import Path
 import pytest
 
 # internal imports
-from easytray.dbus_backends import install_icon_to_xdg_data_home
+from easytray.dbus_backends import utils
+install_icon_to_xdg_data_home = utils.install_icon_to_xdg_data_home
 
 
 SVG_IMAGE = """
@@ -35,6 +36,12 @@ SVG_IMAGE = """
 </svg>
 """
 
+@pytest.fixture
+def fake_xdg_data_home(tmp_path):
+    def internal_fake_function():
+        """Simple function to return fake XDG_DATA_HOME directory"""
+        return tmp_path
+    return internal_fake_function
 
 @pytest.fixture
 def image_svg(tmp_path):
@@ -62,7 +69,8 @@ def test_install_icon_to_xdg_data_home_png(image_png):
     assert (new_icon_path / "image.png").exists()
 
 
-def test_install_icon_to_xdg_data_home_svg(image_svg):
+def test_install_icon_to_xdg_data_home_svg(image_svg, fake_xdg_data_home, monkeypatch):
+    monkeypatch.setattr(utils, 'get_xdg_data_home', fake_xdg_data_home)
     new_icon_path_str = install_icon_to_xdg_data_home(icon_path=image_svg)
     new_icon_path = Path(new_icon_path_str)
     assert new_icon_path.is_dir()

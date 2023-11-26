@@ -37,7 +37,7 @@ def run_xdg_icon_resource(icon_path: Path, icon_size: int | None):
         dst_dir = data_home / "icons/hicolor/scalable/apps"
         dst_dir.mkdir(exist_ok=True, parents=True)
         icon_new_path = Path(copy2(icon_path, dst_dir)).parent
-        assert dst_dir == dst_dir
+        assert dst_dir == icon_new_path
         # try to update icon cache for gtk and Plasma apps
         process = run(
             ['gtk-update-icon-cache && rm "${HOME}/.cache/icon-cache.kcache"'],
