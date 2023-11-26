@@ -59,9 +59,11 @@ def test_install_icon_to_xdg_data_home_png(image_png):
     )
     new_icon_path = Path(new_icon_path_str)
     assert new_icon_path.is_dir()
+    assert (new_icon_path / "image.png").exists()
 
 
 def test_install_icon_to_xdg_data_home_svg(image_svg):
     new_icon_path_str = install_icon_to_xdg_data_home(icon_path=image_svg)
     new_icon_path = Path(new_icon_path_str)
     assert new_icon_path.is_dir()
+    assert (new_icon_path / "image.svg").exists()
