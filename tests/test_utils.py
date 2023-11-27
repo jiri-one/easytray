@@ -98,3 +98,6 @@ def test_install_icon_to_xdg_data_home_svg(image_svg, fake_xdg_data_home, monkey
     new_icon_path = Path(new_icon_path_str)
     assert new_icon_path.is_dir()
     assert (new_icon_path / "image.svg").exists()
+
+
+# TODO: test checking if icon is installed on system already
