@@ -17,6 +17,10 @@ DBUS_PATH = "/SNIMenu"
 
 
 class EasyTray(Gtk.Application):
+    """
+    This is a sample application that uses both the tray icon and the Dbus menu. It can be used as a basis for creating a GTK application. This application uses gbulb to create the main loop of the application asynchronously, but you can also use the standard loop from GTK/PyGobject.
+    """
+
     def __init__(self, loop=None):
         super().__init__(application_id="one.jiri.easydict")
         # install the icon to the system
