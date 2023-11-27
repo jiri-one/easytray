@@ -9,7 +9,7 @@ import asyncio
 import gbulb
 
 # internal imports
-from .dbus_backends import get_dbus_backend, install_icon_to_xdg_data_home
+from .dbus_backends import get_dbus_backend, install_icon_to_xdg_data_home, DasbusTray
 from .menu import EasyTrayMenu
 
 DEFAULT_TRAY_BACKEND = "dasbus"
@@ -21,11 +21,9 @@ class EasyTray(Gtk.Application):
         super().__init__(application_id="one.jiri.easydict")
         # install the icon to the system
         icon = Path(__file__).parent / "easydict-tray-icon.png"
-        print(icon)
         icon_path = install_icon_to_xdg_data_home(icon_path=icon, icon_size=285)
-        print(icon_path)
         # get the dbus backend a set the tray icon
-        dbus_tray_backend = get_dbus_backend(DEFAULT_TRAY_BACKEND)
+        dbus_tray_backend: DasbusTray = get_dbus_backend(DEFAULT_TRAY_BACKEND)
         tray = dbus_tray_backend(
             category="ApplicationStatus",
             id=self.get_application_id(),
@@ -35,6 +33,8 @@ class EasyTray(Gtk.Application):
             object_path=DBUS_PATH,  # dbus path has to be same like menu
             icon_theme_path=icon_path,
             primary_callback=self.primary_activated,
+            secondary_callback=self.secondary_activated,
+            scroll_callback=self.scroll_activated,
         )
         # you need to call that method to show tray icon
         tray.create_tray_icon()
@@ -58,8 +58,14 @@ class EasyTray(Gtk.Application):
         button_label = action.property_get("label")
         print(f"The button {button_label} was pressed.")
 
-    def primary_activated(self, x, y):
+    def primary_activated(self, x: int, y: int):
         print("Primary button has been activated", x, y)
+
+    def secondary_activated(self, x: int, y: int):
+        print("Secondary button has been activated", x, y)
+
+    def scroll_activated(self, delta: int, orientation: str):
+        print("Scroll whell has been activated", delta, orientation)
 
 
 def main(args=sys.argv[1:]):

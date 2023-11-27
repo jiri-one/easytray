@@ -1,5 +1,6 @@
 # internal imports
 from .dasbus_backend import DasbusTray
+from .tray_abc import Tray
 from .utils import install_icon_to_xdg_data_home
 
 # from dbusfast_backend import DbusFastTray
@@ -12,8 +13,8 @@ KNOWN_BACKENDS: dict = {
 }
 
 
-def get_dbus_backend(backend):
+def get_dbus_backend(backend) -> Tray:
     return KNOWN_BACKENDS.get(backend, None)
 
 
-__all__ = ["get_dbus_backend", "install_icon_to_xdg_data_home"]
+__all__ = ["get_dbus_backend", "install_icon_to_xdg_data_home", "DasbusTray"]
